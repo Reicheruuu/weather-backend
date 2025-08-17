@@ -6,12 +6,23 @@ const WeatherSearch = require('./models/WeatherSearch');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 10000;
 
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = "c917d96a646809655222262c2eac8403"; // Move this to .env file in production
+const API_KEY = process.env.WEATHER_API; // Move this to .env file in production
+
+// Allow frontend domain
+app.use(cors({
+  origin: "https://reicheruuu.github.io"
+}));
+
+// OR if you want to allow all origins (not recommended for prod):
+// app.use(cors());
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
 
 // Connect to database
 connectDB();
