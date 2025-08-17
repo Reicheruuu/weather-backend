@@ -8,7 +8,6 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 10000;
 
-app.use(express.json());
 
 const API_KEY = process.env.WEATHER_API; // Move this to .env file in production
 
@@ -23,7 +22,7 @@ app.use(cors({
 // OR if you want to allow all origins (not recommended for prod):
 // app.use(cors());
 app.get("/", (req, res) => {
-  res.send("Backend is running!!");
+  res.send("Backend is running!");
 });
 
 // Connect to database
