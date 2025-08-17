@@ -23,7 +23,7 @@ app.use(cors({
 // OR if you want to allow all origins (not recommended for prod):
 // app.use(cors());
 app.get("/", (req, res) => {
-  res.send("Backend is running!");
+  res.send("Backend is running!!");
 });
 
 // Connect to database
