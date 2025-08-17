@@ -8,15 +8,17 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 10000;
 
-app.use(cors());
 app.use(express.json());
 
 const API_KEY = process.env.WEATHER_API; // Move this to .env file in production
 
 // Allow frontend domain
 app.use(cors({
-  origin: "https://reicheruuu.github.io"
+  origin: "https://reicheruuu.github.io", 
+  methods: ["GET", "POST"],
+  credentials: true
 }));
+
 
 // OR if you want to allow all origins (not recommended for prod):
 // app.use(cors());
@@ -29,10 +31,11 @@ connectDB();
 
 app.get('/api/weather/:city', async (req, res) => {
   try {
-    const { city } = req.params;
+    const city = req.params.city;
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+    `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
     );
+
     res.json(response.data);
   } catch (error) {
     res.status(404).json({ message: 'City not found' });
@@ -41,9 +44,9 @@ app.get('/api/weather/:city', async (req, res) => {
 
 app.get('/api/forecast/:city', async (req, res) => {
   try {
-    const { city } = req.params;
+    const city = req.params.city;
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
     );
     res.json(response.data);
   } catch (error) {
